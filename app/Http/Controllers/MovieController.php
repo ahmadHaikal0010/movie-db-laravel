@@ -10,6 +10,12 @@ use App\Models\Movie;
 
 class MovieController extends Controller
 {
+    public function homePage()
+    {
+        $movies = Movie::latest()->paginate(6);
+        return view('homepage', compact('movies'));
+    }
+
     public function index()
     {
         $movies = Movie::latest()->paginate(10);

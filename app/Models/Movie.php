@@ -10,7 +10,7 @@ class Movie extends Model
 {
     /** @use HasFactory<\Database\Factories\MovieFactory> */
     use HasFactory;
-    protected $guarded=[];
+    protected $guarded = ['id'];
 
     public function category(): BelongsTo
     {

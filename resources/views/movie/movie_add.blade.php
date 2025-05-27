@@ -1,6 +1,6 @@
-@extends('layouts.main')
+@extends('layouts.template')
 @section('title', 'Tambah Data Movie')
-@section('navMovie', 'active')
+@section('navInput', 'active')
 
 @section('content')
     <div class="row">
@@ -8,12 +8,12 @@
             <div class="col-12">
                 <h1 class="h2">Input Data Movie</h1>
 
-                <form action="/movie" method="post">
+                <form action="/movie" method="post" enctype="multipart/form-data">
                     @csrf
 
                     {{-- title --}}
                     <div class="row mb-3">
-                        <label for="title" class="col-sm-2 col-form-label">title</label>
+                        <label for="title" class="col-sm-2 col-form-label">Title</label>
                         <div class="col-sm-10">
                             <input type="text" name="title" class="form-control @error('title') is-invalid @enderror"
                                 id="title" value="{{ old('title') }}">
@@ -24,7 +24,7 @@
                     </div>
 
                     {{-- slug --}}
-                    <div class="row mb-3">
+                    {{-- <div class="row mb-3">
                         <label for="slug" class="col-sm-2 col-form-label">Slug</label>
                         <div class="col-sm-10">
                             <input type="text" name="slug" class="form-control @error('slug') is-invalid @enderror"
@@ -33,15 +33,13 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                    </div>
+                    </div> --}}
 
                     {{-- synopsis --}}
-                    <div class="row mb-3">
-                        <label for="synopsis" class="col-sm-2 col-form-label">synopsis</label>
+                    <div class="mb-3 row">
+                        <label for="synopsis" class="col-sm-2 col-form-label">Synopsis</label>
                         <div class="col-sm-10">
-                            <input type="text" name="synopsis"
-                                class="form-control @error('synopsis') is-invalid @enderror" id="synopsis"
-                                value="{{ old('synopsis') }}">
+                            <textarea name="synopsis" id="synopsis" rows="4" class="form-control @error('synopsis') is-invalid @enderror">{{ old('synopsis') }}</textarea>
                             @error('synopsis')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -55,7 +53,7 @@
                             <select name="category_id" id="category_id"
                                 class="form-control @error('category_id') is-invalid @enderror">
                                 <option value="">-- Pilih Kategori --</option>
-                                @foreach ($category as $item)
+                                @foreach ($categories as $item)
                                     <option value="{{ $item->id }}"
                                         {{ old('category_id') == $item->id ? 'selected' : '' }}>
                                         {{ $item->category_name }}
@@ -82,10 +80,12 @@
                     </div>
 
                     {{-- actors --}}
-                    <div class="mb-3 row">
+                    <div class="row mb-3">
                         <label for="actors" class="col-sm-2 col-form-label">Actors</label>
                         <div class="col-sm-10">
-                            <textarea name="actors" id="actors" rows="4" class="form-control @error('actors') is-invalid @enderror">{{ old('actors') }}</textarea>
+                            <input type="text" name="actors"
+                                class="form-control @error('actors') is-invalid @enderror" id="actors"
+                                value="{{ old('actors') }}">
                             @error('actors')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -97,8 +97,7 @@
                         <label for="cover_image" class="col-sm-2 col-form-label">Cover Image</label>
                         <div class="col-sm-10">
                             <input type="file" name="cover_image"
-                                class="form-control @error('cover_image') is-invalid @enderror" id="cover_image"
-                                value="{{ old('cover_image') }}">
+                                class="form-control @error('cover_image') is-invalid @enderror" id="cover_image">
                             @error('cover_image')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

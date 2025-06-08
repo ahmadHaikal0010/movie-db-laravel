@@ -25,7 +25,7 @@
                     </li>
                     @auth
                         <li class="nav-item">
-                            <a class="nav-link @yield('navInput')" href="{{ route('movie_add') }}">Input Movie</a>
+                            <a class="nav-link" @yield('navData') href="{{ route('movie_data') }}">Data Movie</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"

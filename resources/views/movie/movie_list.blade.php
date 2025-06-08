@@ -1,44 +1,54 @@
-@extends('layouts.main')
-@section('title')
-@section('navMovie','active')
+@extends('layouts.template')
+@section('title', 'List Movie Data')
+@section('navData', 'active')
 @section('content')
 
-    <h1>Daftar Movie</h1>
-    <a href="/movie_add" class="btn btn-primary mb-3">Tambah Data Movie</a>
-    <table class="table table-bordered">
+    <?php if (session('success')): ?>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <?php elseif (session('failed')): ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Failed!</strong> {{ session('failed') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <?php endif; ?>
 
+    <h1>Daftar Movie</h1>
+    <a href="{{ route('movie_add') }}" class="btn btn-success mb-3">Tambah Data Movie</a>
+    <table class="table table-bordered">
         <tr>
             <th>No</th>
-            <th>Cover Image</th>
             <th>Title</th>
+            <th>Category</th>
             <th>Year</th>
+            <th>Action</th>
         </tr>
-        @foreach ($movies as $item )
-        <tr>
-            <td>{{ $movies->firstItem()+$loop->index }}</td>
-            <td><img src="{{ $item->cover_image }}" alt="" width="100"></td>
-            <td>{{ $item->title }}</td>
-            <td>{{ $item->year }}</td>
-
-            {{-- <td>
-                <a href="/item/{{ $item->id }}/edit" class="btn btn-warning btn-sm">
-                    <i class="bi bi-pencil-square"></i>edit
-                </a>
-
-                <form action="/item/{{ $item->id }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
-                    @csrf
-                    @method('DELETE')
-                    <button class="btn btn-danger btn-sm">
-                        <i class="bi bi-trash"></i>hapus
-                    </button>
-                </form>
-            </td> --}}
-
-
-        </tr>
-
+        @foreach ($movies as $item)
+            <tr>
+                <td>{{ $movies->firstItem() + $loop->index }}</td>
+                <td>{{ $item->title }}</td>
+                <td>
+                    @foreach ($categories as $category)
+                        {{ $category->id == $item->category_id ? $category->category_name : null }}
+                    @endforeach
+                </td>
+                <td>{{ $item->year }}</td>
+                <td>
+                    <a href="/movie/{{ $item->id }}/{{ $item->slug }}" class="btn btn-primary">Detail</a>
+                    <form action="" method="post">
+                        @csrf
+                        <button class="btn btn-warning" type="submit">Edit</button>
+                    </form>
+                    <form action="/delete_data/{{ $item->id }}" method="post">
+                        @csrf
+                        <button class="btn btn-danger" type="submit"
+                            onclick="alert('Are you sure to delete?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
         @endforeach
-
     </table>
     {{ $movies->links() }}
 

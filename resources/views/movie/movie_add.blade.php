@@ -23,18 +23,6 @@
                         </div>
                     </div>
 
-                    {{-- slug --}}
-                    {{-- <div class="row mb-3">
-                        <label for="slug" class="col-sm-2 col-form-label">Slug</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="slug" class="form-control @error('slug') is-invalid @enderror"
-                                id="slug" value="{{ old('slug') }}">
-                            @error('slug')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div> --}}
-
                     {{-- synopsis --}}
                     <div class="mb-3 row">
                         <label for="synopsis" class="col-sm-2 col-form-label">Synopsis</label>
@@ -83,9 +71,8 @@
                     <div class="row mb-3">
                         <label for="actors" class="col-sm-2 col-form-label">Actors</label>
                         <div class="col-sm-10">
-                            <input type="text" name="actors"
-                                class="form-control @error('actors') is-invalid @enderror" id="actors"
-                                value="{{ old('actors') }}">
+                            <input type="text" name="actors" class="form-control @error('actors') is-invalid @enderror"
+                                id="actors" value="{{ old('actors') }}">
                             @error('actors')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -105,7 +92,7 @@
                     </div>
 
                     {{-- Submit Button --}}
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-success">Submit</button>
                 </form>
             </div>
         </div>

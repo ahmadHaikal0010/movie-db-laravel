@@ -24,12 +24,6 @@ class MovieController extends Controller
         return view('movie.movie_detail', compact('movie'));
     }
 
-    public function index()
-    {
-        $movies = Movie::latest()->paginate(10);
-        return view('movie.movie_list', data: ['movies' => $movies]);
-    }
-
     public function add()
     {
         $categories = Category::all();
@@ -71,5 +65,23 @@ class MovieController extends Controller
         );
 
         return redirect('/')->with('success', 'Movie Saved Successfully');
+    }
+
+    public function delete($id): RedirectResponse
+    {
+        $data = Movie::find($id);
+        if ($data) {
+            $data->delete();
+            return redirect(route('movie_data'))->with('success', 'Movie Delete Successfully');
+        } else {
+            return redirect(route('movie_data'))->with('failed', 'Movie Delete Failed');
+        }
+    }
+
+    public function dataMovie()
+    {
+        $movies = Movie::latest()->paginate(10);
+        $categories = Category::all();
+        return view('movie.movie_list', compact('movies', 'categories'));
     }
 }

@@ -37,10 +37,7 @@
                 <td>{{ $item->year }}</td>
                 <td>
                     <a href="/movie/{{ $item->id }}/{{ $item->slug }}" class="btn btn-primary">Detail</a>
-                    <form action="" method="post">
-                        @csrf
-                        <button class="btn btn-warning" type="submit">Edit</button>
-                    </form>
+                    <a href="/movie_edit/{{ $item->id }}" class="btn btn-warning">Edit</a>
                     <form action="/delete_data/{{ $item->id }}" method="post">
                         @csrf
                         <button class="btn btn-danger" type="submit"

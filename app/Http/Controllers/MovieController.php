@@ -30,6 +30,13 @@ class MovieController extends Controller
         return view('movie.movie_add', compact('categories'));
     }
 
+    public function edit($id)
+    {
+        $categories = Category::all();
+        $movie = Movie::find($id);
+        return view('movie.movie_edit', compact('categories', 'movie'));
+    }
+
     public function store(Request $request): RedirectResponse
     {
         // ambil semua input dari form
@@ -76,6 +83,41 @@ class MovieController extends Controller
         } else {
             return redirect(route('movie_data'))->with('failed', 'Movie Delete Failed');
         }
+    }
+
+    public function update(Request $request, $id): RedirectResponse
+    {
+        // Validasi input
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'synopsis' => 'nullable',
+            'category_id' => 'required|exists:categories,id',
+            'year' => 'required|digits:4|integer|min:1901|max:' . date('Y'),
+            'actors' => 'required',
+            'cover_image' => 'nullable|image',
+        ]);
+
+        $movie = Movie::findOrFail($id); // cari movie berdasarkan ID
+
+        $slug = Str::slug($validated['title']);
+
+        // Cek apakah ada file baru yang diupload
+        if ($request->hasFile('cover_image')) {
+            $cover = $request->file('cover_image')->store('covers', 'public');
+            $movie->cover_image = $cover;
+        }
+
+        // Update data
+        $movie->title = $validated['title'];
+        $movie->slug = $slug;
+        $movie->synopsis = $validated['synopsis'];
+        $movie->category_id = $validated['category_id'];
+        $movie->year = $validated['year'];
+        $movie->actors = $validated['actors'];
+
+        $movie->save(); // simpan ke database
+
+        return redirect(route('movie_data'))->with('success', 'Movie updated successfully');
     }
 
     public function dataMovie()

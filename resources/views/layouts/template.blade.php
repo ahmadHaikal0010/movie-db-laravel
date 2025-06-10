@@ -34,7 +34,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="#">{{ Auth::user()->email }}</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li class="dropdown-item">{{ Auth::user()->role }}</li>
                                 <li>
                                     <form method="post" action="/logout">
                                         @csrf

@@ -36,13 +36,15 @@
                 </td>
                 <td>{{ $item->year }}</td>
                 <td>
-                    <a href="/movie/{{ $item->id }}/{{ $item->slug }}" class="btn btn-primary">Detail</a>
+                    <a href="/movie/{{ $item->id }}/{{ $item->slug }}" class="btn btn-primary">Show</a>
                     <a href="/movie_edit/{{ $item->id }}" class="btn btn-warning">Edit</a>
-                    <form action="/delete_data/{{ $item->id }}" method="post">
-                        @csrf
-                        <button class="btn btn-danger" type="submit"
-                            onclick="alert('Are you sure to delete?')">Delete</button>
-                    </form>
+                    @can('delete')
+                        <form action="/delete_data/{{ $item->id }}" method="post">
+                            @csrf
+                            <button class="btn btn-danger" type="submit"
+                                onclick="confirm('Are you sure to delete?')">Delete</button>
+                        </form>
+                    @endcan
                 </td>
             </tr>
         @endforeach

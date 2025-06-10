@@ -8,6 +8,7 @@ use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class MovieController extends Controller
@@ -76,12 +77,16 @@ class MovieController extends Controller
 
     public function delete($id): RedirectResponse
     {
-        $data = Movie::find($id);
-        if ($data) {
-            $data->delete();
-            return redirect(route('movie_data'))->with('success', 'Movie Delete Successfully');
+        if (Gate::allows('delete')) {
+            $data = Movie::find($id);
+            if ($data) {
+                $data->delete();
+                return redirect(route('movie_data'))->with('success', 'Movie Delete Successfully');
+            } else {
+                return redirect(route('movie_data'))->with('failed', 'Movie Delete Failed');
+            }
         } else {
-            return redirect(route('movie_data'))->with('failed', 'Movie Delete Failed');
+            abort(403);
         }
     }
 
